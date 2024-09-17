@@ -32,6 +32,7 @@ import { EditorAwarenessProvider } from '@/hooks/useEditorAwareness'
 import ShortcutsModal from './ShortcutsModal'
 import { NEXT_PUBLIC_PUBLIC_URL } from '@/utils/env'
 import ReusableComponents from './ReusableComponents'
+import { SaveConfirmationModal } from './ReusableComponents'
 
 // this is needed because this component only works with the browser
 const V2Editor = dynamic(() => import('@/components/v2Editor'), {
@@ -367,6 +368,8 @@ function PrivateDocumentPageInner(
           visible={selectedSidebar?._tag === 'shortcuts'}
           onHide={onHideSidebar}
         />
+
+        <SaveConfirmationModal isOpen={true} onClose={() => {}} />
 
         {!isViewer && !isDeleted && (
           <>

@@ -1,14 +1,18 @@
 import * as Y from 'yjs'
 import React, { useCallback } from 'react'
-import { ChevronDoubleRightIcon, TrashIcon } from '@heroicons/react/24/outline'
-import { Transition } from '@headlessui/react'
+import {
+  ChevronDoubleRightIcon,
+  TrashIcon,
+  CheckIcon,
+} from '@heroicons/react/24/outline'
+import { Transition, Dialog } from '@headlessui/react'
 import Spin from './Spin'
 import { BlockType } from '@briefer/editor'
-import { FolderIcon, InformationCircleIcon } from '@heroicons/react/20/solid'
 import { Tooltip } from './Tooltips'
 import { format } from 'date-fns'
 import clsx from 'clsx'
 import { SaveIcon } from 'lucide-react'
+import { useState } from 'react'
 
 interface Props {
   workspaceId: string
@@ -220,7 +224,7 @@ export const SaveReusableComponent = () => {
       <Tooltip
         position="top"
         message="Save this block as a reusable component to add to other pages."
-        tooltipClassname="w-64"
+        tooltipClassname="w-36"
         active
       >
         <button className="rounded-sm h-6 min-w-6 flex items-center justify-center border border-gray-200 text-gray-400 hover:bg-gray-50">
@@ -228,5 +232,94 @@ export const SaveReusableComponent = () => {
         </button>
       </Tooltip>
     </div>
+  )
+}
+
+type SaveConfirmationModalProps = {
+  isOpen: boolean
+  onClose: () => void
+}
+
+export const SaveConfirmationModal = (props: SaveConfirmationModalProps) => {
+  const [open, setOpen] = useState(true)
+
+  return (
+    <Transition show={open}>
+      <Dialog onClose={setOpen} className="relative z-[1000]">
+        <Transition.Child
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        </Transition.Child>
+
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <Transition.Child
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enterTo="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all w-[532px]">
+                <div>
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-yellow-100">
+                    <SaveIcon
+                      strokeWidth={2}
+                      className="h-6 w-6 text-yellow-600"
+                    />
+                  </div>
+                  <div className="mt-3 text-center sm:mt-5">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-base font-semibold leading-6 text-gray-900"
+                    >
+                      Update existing component
+                    </Dialog.Title>
+                    <div className="mt-2 flex flex-col items-center gap-y-2">
+                      <p className="text-sm text-gray-500">
+                        You have previously saved this block as a reusable
+                        component.
+                      </p>
+
+                      <p className="text-sm text-gray-500">
+                        Saving this component will update all of its instances.
+                      </p>
+
+                      <p className="text-sm text-gray-500">
+                        Do you want to update it?
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setOpen(false)}
+                    className="inline-flex w-full justify-center rounded-sm bg-primary-200 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-primary-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:col-start-2"
+                  >
+                    Update component
+                  </button>
+                  <button
+                    type="button"
+                    data-autofocus
+                    onClick={() => setOpen(false)}
+                    className="mt-3 inline-flex w-full justify-center rounded-sm bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:col-start-1 sm:mt-0"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition>
   )
 }
