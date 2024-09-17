@@ -47,6 +47,7 @@ import useEditorAwareness from '@/hooks/useEditorAwareness'
 import { useStringQuery } from '@/hooks/useQueryArgs'
 import { useWorkspaces } from '@/hooks/useWorkspaces'
 import useProperties from '@/hooks/useProperties'
+import { SaveReusableComponent } from '@/components/ReusableComponents'
 
 interface Props {
   document: ApiDocument
@@ -514,6 +515,7 @@ function PythonBlock(props: Props) {
           onToggleIsBlockHiddenInPublished={onToggleIsBlockHiddenInPublished}
           hasMultipleTabs={props.hasMultipleTabs}
         />
+        <SaveReusableComponent />
       </div>
     </div>
   )

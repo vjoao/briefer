@@ -8,6 +8,7 @@ import { FolderIcon, InformationCircleIcon } from '@heroicons/react/20/solid'
 import { Tooltip } from './Tooltips'
 import { format } from 'date-fns'
 import clsx from 'clsx'
+import { SaveIcon } from 'lucide-react'
 
 interface Props {
   workspaceId: string
@@ -209,6 +210,23 @@ function ReusableComponentItem(props: ComponentItemProps) {
           </Tooltip>
         </div>
       </div>
+    </div>
+  )
+}
+
+export const SaveReusableComponent = () => {
+  return (
+    <div className="relative">
+      <Tooltip
+        position="top"
+        message="Save this block as a reusable component to add to other pages."
+        tooltipClassname="w-64"
+        active
+      >
+        <button className="rounded-sm h-6 min-w-6 flex items-center justify-center border border-gray-200 text-gray-400 hover:bg-gray-50">
+          <SaveIcon strokeWidth={2} className="w-3 h-3" />
+        </button>
+      </Tooltip>
     </div>
   )
 }

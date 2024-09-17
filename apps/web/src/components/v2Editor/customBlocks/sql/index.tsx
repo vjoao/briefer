@@ -59,6 +59,7 @@ import useEditorAwareness from '@/hooks/useEditorAwareness'
 import { useWorkspaces } from '@/hooks/useWorkspaces'
 import { useStringQuery } from '@/hooks/useQueryArgs'
 import useProperties from '@/hooks/useProperties'
+import { SaveReusableComponent } from '@/components/ReusableComponents'
 
 const NO_DS_TEXT = `-- No data sources connected. Please add one using the "data sources" menu on the bottom left
 -- Alternatively, you can upload files using the file upload block and query them using DuckDB as a data source.`
@@ -671,6 +672,8 @@ function SQLBlock(props: Props) {
             </span>
           </div>
         </button>
+
+        <SaveReusableComponent />
       </div>
     </div>
   )
