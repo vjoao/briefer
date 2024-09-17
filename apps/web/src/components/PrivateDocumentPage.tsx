@@ -31,6 +31,7 @@ import SchemaExplorer from './schemaExplorer'
 import { EditorAwarenessProvider } from '@/hooks/useEditorAwareness'
 import ShortcutsModal from './ShortcutsModal'
 import { NEXT_PUBLIC_PUBLIC_URL } from '@/utils/env'
+import ReusableComponents from './ReusableComponents'
 
 // this is needed because this component only works with the browser
 const V2Editor = dynamic(() => import('@/components/v2Editor'), {
@@ -91,6 +92,7 @@ function PrivateDocumentPageInner(
     | { _tag: 'files' }
     | { _tag: 'schemaExplorer'; dataSourceId: string | null }
     | { _tag: 'shortcuts' }
+    | { _tag: 'reusableComponents' }
     | null
   >(null)
 
@@ -109,6 +111,12 @@ function PrivateDocumentPageInner(
   const onToggleShortcuts = useCallback(() => {
     setSelectedSidebar((v) =>
       v?._tag === 'shortcuts' ? null : { _tag: 'shortcuts' }
+    )
+  }, [setSelectedSidebar])
+
+  const onToggleReusableComponents = useCallback(() => {
+    setSelectedSidebar((v) =>
+      v?._tag === 'reusableComponents' ? null : { _tag: 'reusableComponents' }
     )
   }, [setSelectedSidebar])
 
@@ -297,6 +305,7 @@ function PrivateDocumentPageInner(
           onToggleFullScreen={onToggleFullScreen}
           onToggleFiles={onToggleFiles}
           onToggleSchemaExplorer={onToggleSchemaExplorerEllipsis}
+          onToggleReusableComponents={onToggleReusableComponents}
           onToggleShortcuts={onToggleShortcuts}
           isViewer={isViewer}
           isDeleted={isDeleted}
@@ -380,6 +389,12 @@ function PrivateDocumentPageInner(
             <Files
               workspaceId={props.workspaceId}
               visible={selectedSidebar?._tag === 'files'}
+              onHide={onHideSidebar}
+              yDoc={yDoc}
+            />
+            <ReusableComponents
+              workspaceId={props.workspaceId}
+              visible={selectedSidebar?._tag === 'reusableComponents'}
               onHide={onHideSidebar}
               yDoc={yDoc}
             />
